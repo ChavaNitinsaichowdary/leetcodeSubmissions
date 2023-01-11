@@ -1,26 +1,26 @@
 class Solution {
     public int numIslands(char[][] grid) {
-        boolean[][] visited = new boolean[grid.length][grid[0].length];
-        int island = 0;
-        for(int i = 0;i<grid.length;i++){
-            for(int j = 0;j<grid[0].length;j++){
-                if(grid[i][j]=='1'&&!visited[i][j]){
-                    island++;
-                    dfs(i,j,visited,grid);
+        int r = grid.length;
+        int c = grid[0].length;
+        int ans = 0;
+        boolean[][] visited = new boolean[r][c];
+        for(int i = 0;i<r;i++){
+            for(int j = 0;j<c;j++){
+                if((grid[i][j]=='1')&&(!visited[i][j])){
+                    dfs(grid,i,j,visited);
+                    ans++;
                 }
             }
         }
-        return island;
+        return ans;
     }
-    public void dfs(int i ,int j,boolean[][] visited,char[][] grid){
-      if(i<0||i>=grid.length||j<0||j>=grid[0].length||grid[i][j]!='1'||visited[i][j]){
-          return;
-      }
-      visited[i][j] = true;
-        dfs(i+1,j,visited,grid);
-        dfs(i-1,j,visited,grid);
-        dfs(i,j+1,visited,grid);
-        dfs(i,j-1,visited,grid);
-        
+    void dfs(char[][] grid,int i,int j,boolean[][] visited){
+        if(i>=0&&j>=0&&i<grid.length&&j<grid[0].length&&!visited[i][j]&&grid[i][j]=='1'){
+            visited[i][j] = true;
+            dfs(grid,i+1,j,visited);
+            dfs(grid,i,j+1,visited);
+            dfs(grid,i-1,j,visited);
+            dfs(grid,i,j-1,visited);
+        }
     }
 }
