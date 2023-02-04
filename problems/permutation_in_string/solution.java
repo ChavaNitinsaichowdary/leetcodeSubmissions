@@ -1,43 +1,31 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        int m = s1.length();
-        int n = s2.length();
-        if(m>n){
-            return false;
+        int[] a = new int[26];
+        int[] b = new int[26];
+        if(s1.length()>s2.length()) return false;
+        for(int i = 0;i<s1.length();i++){
+            a[s1.charAt(i)-'a']++;
         }
-        HashMap<Character,Integer> h = new HashMap<>();
-        for(int i = 0;i<m;i++){
-            char c = s1.charAt(i);
-            h.put(c,h.getOrDefault(c,0)+1);
-        }
-        int counter = h.size();
-        int end = 0;
-        int begin = 0;
-        while(end<n){
-            char ch = s2.charAt(end);
-            if(h.containsKey(ch)){
-                h.put(ch,h.get(ch)-1);
-                if(h.get(ch)==0){
-                    counter--;
-                }
+        for(int i=0;i<s2.length();i++){
+            if(i<s1.length()){
+                b[s2.charAt(i)-'a']++;
             }
-            end++;
-            while(counter==0){
-                if(end-begin==s1.length()){
-                    return true;
-                }
-                char temp = s2.charAt(begin);
-                if(h.containsKey(temp)){
-                    h.put(temp,h.get(temp)+1);
-                    if(h.get(temp)==1){
-                        counter++;
-                    }
-                }
-                begin++;
-                
+            else{
+                b[s2.charAt(i)-'a']++;
+                b[s2.charAt(i-s1.length())-'a']--;
             }
+            if(match(a,b)) return true;
         }
         return false;
         
+    }
+    public boolean match(int[] a,int[] b){
+        for(int i = 0;i<26;i++){
+            if(a[i]!=b[i]){
+                return false;
+            }
+            
+        }
+        return true;
     }
 }
