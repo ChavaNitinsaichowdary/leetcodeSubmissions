@@ -1,12 +1,19 @@
-public class Solution {
-    public boolean isValid(String s) {
-        int length;
-    
-        do {
-            length = s.length();
-            s = s.replace("()", "").replace("{}", "").replace("[]", "");
-        } while(length != s.length());
-    
-        return s.length() == 0;
+class Solution {
+    public boolean isValid(String str) {
+        Stack<Character> s = new Stack<>();
+        for(char c : str.toCharArray()){
+            if(c=='('){ 
+                s.push(')');
+            }else if(c=='{'){
+                s.push('}');
+            }
+            else if(c=='['){
+                s.push(']');
+            }
+            else if(s.isEmpty()||s.pop()!=c){
+                return false;
+            }
+        }
+        return s.isEmpty();
     }
 }
