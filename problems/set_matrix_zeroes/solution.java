@@ -1,33 +1,43 @@
 class Solution {
-    public void setZeroes(int[][] matrix) {
-       int[][] ans = new int[matrix.length][matrix[0].length];
-         for(int i =0;i<matrix.length;i++){
-           for(int j=0;j<matrix[0].length;j++){
-               ans[i][j]=matrix[i][j];
-           }
-       } 
-       
-       for(int i =0;i<matrix.length;i++){
-           for(int j=0;j<matrix[0].length;j++){
-               if(matrix[i][j]==0){
-                   zeroes(ans,i,j);
-               }
-           }
-       }
-       for(int i =0;i<matrix.length;i++){
-           for(int j=0;j<matrix[0].length;j++){
-              matrix[i][j]=ans[i][j];
-           }
-       } 
-       
-       
-    }
-    public void zeroes(int[][] ans,int c, int d){
-        for(int a =0;a<ans.length;a++){
-            ans[a][d]=0;
+    public void setZeroes(int[][] matrix){
+
+		int m=matrix.length, n=matrix[0].length;
+        boolean isRow0=false, isCol0=false;
+        
+        for(int j=0;j<n;j++){
+            if(matrix[0][j]==0)
+                isRow0=true;
         }
-         for(int a =0;a<ans[0].length;a++){
-            ans[c][a]=0;
+        
+        for(int i=0;i<m;i++){
+            if(matrix[i][0]==0)
+                isCol0=true;
+        }
+        
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                if(matrix[i][j]==0){
+                    matrix[i][0]=0;
+                    matrix[0][j]=0;
+                }
+            }
+        }
+        
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                if(matrix[0][j]==0 || matrix[i][0]==0)
+                    matrix[i][j]=0;
+            }
+        }
+        
+        if(isRow0){
+            for(int j=0;j<n;j++)
+                matrix[0][j]=0;
+        }
+        
+        if(isCol0){
+            for(int i=0;i<m;i++)
+                matrix[i][0]=0;
         }
     }
 }
