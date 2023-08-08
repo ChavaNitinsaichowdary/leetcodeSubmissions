@@ -14,17 +14,22 @@
  * }
  */
 class Solution {
+    int sum = 0;
     public int sumNumbers(TreeNode root) {
-        return treeSum(root,0);
+        if(root==null) return 0;
+        sum(root,"");
+        return sum;
     }
-    public int treeSum(TreeNode root,int sum){
+    public  void sum(TreeNode root,String str){
         if(root==null){
-            return 0;
+           return;
         }
+        str = str + root.val;
         if(root.left==null&&root.right==null){
-            return sum*10+root.val;
+            sum += Integer.valueOf(str);
         }
-        return treeSum(root.left,sum*10+root.val)+treeSum(root.right,sum*10+root.val);
-        
+        sum(root.left,str);
+        sum(root.right,str);
+
     }
 }
