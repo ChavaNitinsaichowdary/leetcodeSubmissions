@@ -14,36 +14,32 @@
  * }
  */
 class Solution {
-    int h1;
-    int h2;
-    TreeNode h1Parent;
-    TreeNode h2Parent;
     public boolean isCousins(TreeNode root, int x, int y) {
-        h1 = 0;
-        h1Parent = null;
-        h2 = 0;
-        h2Parent = null;
-        tHeight(root,x,y,0,null);
-        if(h1==h2&&h1Parent!=h2Parent){
-            return true;
-        }
-        return false;
-    }
-    public void tHeight(TreeNode root,int x,int y,int height,TreeNode parent){
-        if(root==null){
-            return;
-        }
-        if(root.val==x){
-            h1=height;
-            h1Parent = parent;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        int xlevel = -1;
+        int ylevel = -2;
+        int level = 0;
+        while(!q.isEmpty()){
             
+            int sz = q.size();
+            while(sz-->0){
+                TreeNode curr = q.poll();
+                if(curr.left!=null&&curr.right!=null){
+                    if(curr.left.val ==x && curr.right.val==y){
+                        return false;
+                    }
+                    if(curr.left.val ==y && curr.right.val==x){
+                        return false;
+                    }
+                }
+                if(curr.val==x) xlevel = level;
+                if(curr.val==y) ylevel = level;
+                if(curr.left!=null) q.offer(curr.left);
+                if(curr.right!=null) q.offer(curr.right);
+            }
+            level++;
         }
-        if(root.val==y){
-            h2=height;
-            h2Parent = parent;
-        }
-        tHeight(root.left,x,y,height+1,root);
-        tHeight(root.right,x,y,height+1,root);
-        return;
+        return xlevel==ylevel;
     }
 }
